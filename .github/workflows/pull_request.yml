@@ -20,5 +20,5 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-region: eu-west-1
-          role-to-assume: ${{ secrets.pr_role }}
+          role-to-assume: ${{ secrets.PR_ROLE }}
           role-session-name: OIDCSession
