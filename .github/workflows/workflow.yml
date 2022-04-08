@@ -27,6 +27,7 @@ jobs:
         role_secret:
           - ROLE
           - PR_ROLE
+    environment: ${{ matrix.environment }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -35,5 +36,5 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-region: eu-west-1
-          role-to-assume: ${{ secretss[matrix.role_secret] }}
+          role-to-assume: ${{ secrets[matrix.role_secret] }}
           role-session-name: OIDCSession
