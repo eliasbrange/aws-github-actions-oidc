@@ -37,7 +37,7 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-region: eu-west-1
-          role-to-assume: ${{ secrets.DEV_DEPLOY_ROLE] }}
+          role-to-assume: ${{ secrets.DEV_DEPLOY_ROLE }}
           role-session-name: OIDCSession
 
       - run: aws s3 cp README.md s3://elias-brange-github-oidc-dev-env-bucket/README.md
