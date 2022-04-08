@@ -3,7 +3,8 @@ module "pull_request_role" {
 
   name = "gh-oidc-pull-request-role"
   subject_claims = [
-    "repo:eliasbrange/aws-github-actions-oidc:pull_request"
+    "repo:eliasbrange/aws-github-actions-oidc:pull_request",
+    "repo:eliasbrange/aws-github-actions-oidc:ref:refs/heads/main"
   ]
   oidc_provider_arn = data.aws_iam_openid_connect_provider.github.arn
   policy = jsonencode({
