@@ -10,7 +10,36 @@ permissions:
 
 jobs:
   read-dev:
+    strategy:
+      fail-fast: false
+      matrix:
+        environment:
+          - ""
+          - Development
+          - Production
+        role_secret:
+          - READ_ROLE
+          - DEV_DEPLOY_ROLE
+          - PROD_DEPLOY_ROLE
     runs-on: ubuntu-latest
+    environment: ${{ matrix.environment }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-region: eu-west-1
+          role-to-assume: ${{ secrets[matrix.role_secret] }}
+          role-session-name: OIDCSession
+
+      - run: aws s3 cp s3://elias-brange-github-oidc-dev-env-bucket/README.md README.md
+        shell: bash
+
+  write-dev:
+    runs-on: ubuntu-latest
+    environment:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -22,11 +51,12 @@ jobs:
           role-to-assume: ${{ secrets.PR_ROLE }}
           role-session-name: OIDCSession
 
-      - run: aws s3 cp s3://elias-brange-github-oidc-dev-env-bucket/README.md README.md
+      - run: aws s3 cp README.md s3://elias-brange-github-oidc-dev-env-bucket/README.md
         shell: bash
 
-  write-dev:
+  write-dev-without-env:
     runs-on: ubuntu-latest
+    environment:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
