@@ -16,6 +16,7 @@ jobs:
   read_bucket:
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
         bucket:
           - elias-brange-github-oidc-dev-env-bucket
