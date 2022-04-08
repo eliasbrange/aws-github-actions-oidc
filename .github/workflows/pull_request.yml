@@ -10,7 +10,7 @@ permissions:
   id-token: write
 
 jobs:
-  read-dev-bucket:
+  read-dev:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -22,3 +22,6 @@ jobs:
           aws-region: eu-west-1
           role-to-assume: ${{ secrets.PR_ROLE }}
           role-session-name: OIDCSession
+
+      - run: aws s3 cp s3://elias-brange-github-oidc-dev-env-bucket/README.md README.md
+        shell: bash

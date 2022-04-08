@@ -13,14 +13,14 @@ permissions:
   id-token: write
 
 jobs:
-  read_bucket:
+  read:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
         bucket:
-          - elias-brange-github-oidc-dev-env-bucket
-          - elias-brange-github-oidc-prod-env-bucket
+          - dev
+          - prod
         environment:
           - ""
           - Production
