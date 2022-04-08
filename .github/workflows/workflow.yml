@@ -1,4 +1,4 @@
-name: "Pull request"
+name: "Workflow"
 
 on:
   workflow_dispatch:
@@ -35,5 +35,5 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-region: eu-west-1
-          role-to-assume: ${{ secrets.[matrix.role_secret] }}
+          role-to-assume: ${{ secretss[matrix.role_secret] }}
           role-session-name: OIDCSession
