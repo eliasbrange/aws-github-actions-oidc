@@ -1,7 +1,7 @@
 name: "Pull request"
 
 on:
-  pull_request:
+  push:
     branches:
       - main
 
@@ -19,7 +19,7 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-region: eu-west-1
-          role-to-assume: ${{ secrets.PR_ROLE }}
+          role-to-assume: ${{ secrets.ROLE }}
           role-session-name: OIDCSession
 
       - run: aws s3 cp s3://elias-brange-github-oidc-dev-env-bucket/README.md README.md
@@ -35,7 +35,7 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-region: eu-west-1
-          role-to-assume: ${{ secrets.PR_ROLE }}
+          role-to-assume: ${{ secrets.ROLE }}
           role-session-name: OIDCSession
 
       - run: aws s3 cp README.md s3://elias-brange-github-oidc-dev-env-bucket/README.md
@@ -51,7 +51,7 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-region: eu-west-1
-          role-to-assume: ${{ secrets.PR_ROLE }}
+          role-to-assume: ${{ secrets.ROLE }}
           role-session-name: OIDCSession
 
       - run: aws s3 cp s3://elias-brange-github-oidc-prod-env-bucket/README.md README.md
@@ -67,27 +67,14 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-region: eu-west-1
-          role-to-assume: ${{ secrets.PR_ROLE }}
+          role-to-assume: ${{ secrets.ROLE }}
           role-session-name: OIDCSession
 
       - run: aws s3 cp README.md s3://elias-brange-github-oidc-prod-env-bucket/README.md
         shell: bash
 
-  try-use-production-env:
+  write-prod-with-env:
     environment: Production
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-region: eu-west-1
-          role-to-assume: ${{ secrets.PR_ROLE }}
-          role-session-name: OIDCSession
-
-  try-use-main-role:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -100,5 +87,15 @@ jobs:
           role-to-assume: ${{ secrets.ROLE }}
           role-session-name: OIDCSession
 
-      - run: aws s3 cp README.md s3://elias-brange-github-oidc-dev-env-bucket/README.md
-        shell: bash
+  try-use-pr-role:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-region: eu-west-1
+          role-to-assume: ${{ secrets.PR_ROLE }}
+          role-session-name: OIDCSession
