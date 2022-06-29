@@ -10,7 +10,7 @@ resource "aws_iam_role" "role" {
           "Federated" : var.oidc_provider_arn
         },
         "Condition" : {
-          "ForAllValues:StringEquals" : {
+          "StringEquals" : {
             "token.actions.githubusercontent.com:aud" : "sts.amazonaws.com",
             "token.actions.githubusercontent.com:sub" : var.subject_claims
           }

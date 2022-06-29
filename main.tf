@@ -1,6 +1,6 @@
 terraform {
   backend "s3" {
-    bucket = "elias-brange-ci-cd"
+    bucket = "elias-brange-sandbox"
     key    = "terraform/aws-github-actions-oidc.tfstate"
     region = "eu-west-1"
   }
